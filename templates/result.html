@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エモタビ - 結果</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">エモタビ</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">ホーム</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">結果</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="uploaded-image text-center mb-4">
+                    <h2 class="section-title">入力画像</h2>
+                    <img src="{{ uploaded_image_url }}" alt="Uploaded Image" class="img-fluid rounded">
+                </div>
+                <div class="text-center mb-4">
+                    <h2 class="section-title">出力された感情語</h2>
+                    <p class="large-text">{{ emotions }}</p>
+                </div>
+                <div class="pie-chart text-center mb-4">
+                    <h2 class="section-title">アップロードされた画像の色彩</h2>
+                    <img src="{{ image_url }}" alt="Color Pie Chart" class="img-fluid rounded-circle">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="suggested-spots">
+                    <h2 class="section-title">提案された観光地</h2>
+                    <p class="large-text"><strong>地域:</strong> {{ region }}</p>
+                    <p class="large-text"><strong>目的:</strong> {{ purpose }}</p>
+                    <div class="list-group">
+                        {% for result in search_results %}
+                            <div class="list-group-item spot-item">
+                                <img src="{{ result.photo_url }}" alt="{{ result.name }}" class="img-fluid mb-2">
+                                <h5 class="mt-2">{{ result.name }}</h5>
+                                <p>{{ result.formatted_address }}</p>
+                                <p>評価: {{ result.rating }} ({{ result.user_ratings_total }} 件の評価)</p>
+                                <a href="{{ result.maps_url }}" target="_blank" class="btn btn-primary">Google Mapsで見る</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="/" class="btn btn-secondary mt-4">戻る</a>
+        </div>
+    </div>
+    <!-- Bootstrap JS, Popper.js, and jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
